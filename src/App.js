@@ -64,6 +64,7 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
     const [history, setHisory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
+    const [reverse, setReverse] = useState(false);
     const currentSquares = history[currentMove];
 
     function handlePlay(nextSquares) {
@@ -120,7 +121,8 @@ export default function Game() {
                 />
             </div>
             <div className="game-info">
-                <ol>{moves}</ol>
+                <button onClick={() => setReverse(!reverse)}>toggle</button>
+                <ol style={reverse? {display: 'flex',flexDirection: 'column-reverse'} : null}>{moves}</ol>
             </div>
         </div>
     );
