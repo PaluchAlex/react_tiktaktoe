@@ -40,8 +40,8 @@ function Board({ xIsNext, squares, onPlay }) {
         for (let index = 0; index < 3; index++) {
             row.push(
                 <Square
-                    value={squares[i+index]}
-                    onSquareClick={() => handleClick(i+index)}
+                    value={squares[i + index]}
+                    onSquareClick={() => handleClick(i + index)}
                 />
             );
         }
@@ -50,9 +50,9 @@ function Board({ xIsNext, squares, onPlay }) {
 
     const table = [];
     for (let index = 0; index < 3; index++) {
-        table.push(<div className="board-row">{calcRow(index*3)}</div>);
+        table.push(<div className="board-row">{calcRow(index * 3)}</div>);
     }
-    
+
     return (
         <>
             <div className="status">{status}</div>
@@ -89,6 +89,7 @@ export default function Game() {
             return (
                 <li key={move}>
                     <div
+                        className="button current"
                         onClick={() => {
                             jumpTo(move);
                         }}
@@ -101,6 +102,7 @@ export default function Game() {
         return (
             <li key={move}>
                 <button
+                    className="button"
                     onClick={() => {
                         jumpTo(move);
                     }}
@@ -121,8 +123,21 @@ export default function Game() {
                 />
             </div>
             <div className="game-info">
-                <button onClick={() => setReverse(!reverse)}>toggle</button>
-                <ol style={reverse? {display: 'flex',flexDirection: 'column-reverse'} : null}>{moves}</ol>
+                <button className="button" onClick={() => setReverse(!reverse)}>
+                    toggle
+                </button>
+                <ol
+                    style={
+                        reverse
+                            ? {
+                                  display: "flex",
+                                  flexDirection: "column-reverse",
+                              }
+                            : null
+                    }
+                >
+                    {moves}
+                </ol>
             </div>
         </div>
     );
