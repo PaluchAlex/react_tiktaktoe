@@ -33,7 +33,11 @@ function Board({ xIsNext, squares, onPlay }) {
     if (winner) {
         status = "Winner: " + winner.winner;
     } else {
+        
         status = "Next player: " + (xIsNext ? "X" : "O");
+        if (!squares.includes(null)) {
+            status = "Draw!";
+        }
     }
 
     function handleIsWinner(index) {
