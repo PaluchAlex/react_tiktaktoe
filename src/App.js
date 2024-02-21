@@ -40,6 +40,7 @@ function Board({ xIsNext, squares, onPlay }) {
         for (let index = 0; index < 3; index++) {
             row.push(
                 <Square
+                    key={i+index}
                     value={squares[i + index]}
                     onSquareClick={() => handleClick(i + index)}
                 />
@@ -50,7 +51,7 @@ function Board({ xIsNext, squares, onPlay }) {
 
     const table = [];
     for (let index = 0; index < 3; index++) {
-        table.push(<div className="board-row">{calcRow(index * 3)}</div>);
+        table.push(<div key={index} className="board-row">{calcRow(index * 3)}</div>);
     }
 
     return (
