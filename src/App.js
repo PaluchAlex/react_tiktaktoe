@@ -1,8 +1,11 @@
 import { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, isWinner }) {
     return (
-        <button className="square" onClick={onSquareClick}>
+        <button
+            className={`square ${isWinner ? "winner" : ""}`}
+            onClick={onSquareClick}
+        >
             {value}
         </button>
     );
@@ -10,7 +13,10 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
     function handleClick(i) {
-        if (squares[i] || calculateWinner(squares)) {
+        if (squares[i]) {
+            return;
+        }
+        if (calculateWinner(squares)) {
             return;
         }
         const nextSquares = squares.slice();
@@ -25,9 +31,15 @@ function Board({ xIsNext, squares, onPlay }) {
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
-        status = "Winner: " + winner;
+        status = "Winner: " + winner.winner;
     } else {
         status = "Next player: " + (xIsNext ? "X" : "O");
+    }
+
+    function handleIsWinner(index) {
+        if (winner) {
+            return winner.lines.includes(index);
+        }
     }
 
     function calcRow(i) {
@@ -40,9 +52,10 @@ function Board({ xIsNext, squares, onPlay }) {
         for (let index = 0; index < 3; index++) {
             row.push(
                 <Square
-                    key={i+index}
+                    key={i + index}
                     value={squares[i + index]}
                     onSquareClick={() => handleClick(i + index)}
+                    isWinner={handleIsWinner(i + index)}
                 />
             );
         }
@@ -51,7 +64,11 @@ function Board({ xIsNext, squares, onPlay }) {
 
     const table = [];
     for (let index = 0; index < 3; index++) {
-        table.push(<div key={index} className="board-row">{calcRow(index * 3)}</div>);
+        table.push(
+            <div key={index} className="board-row">
+                {calcRow(index * 3)}
+            </div>
+        );
     }
 
     return (
@@ -162,7 +179,10 @@ function calculateWinner(squares) {
             squares[a] === squares[b] &&
             squares[a] === squares[c]
         ) {
-            return squares[a];
+            return {
+                winner: squares[a],
+                lines: lines[i],
+            };
         }
     }
     return null;
